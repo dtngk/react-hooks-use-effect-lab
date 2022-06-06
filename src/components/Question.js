@@ -1,9 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useCallback } from "react/cjs/react.production.min";
 
 function Question({ question, onAnswered }) {
   const [timeRemaining, setTimeRemaining] = useState(10);
 
+
+
   // add useEffect code
+  useEffect(() => {
+
+    const timeLeft = setTimeout(() => {
+      setTimeRemaining((timeRemaining) => (timeRemaining - 1));
+    }, 1000);
+
+    if(timeRemaining === 0){
+      setTimeRemaining(10);
+      onAnswered(false);
+      return;
+    }
+
+    return function(){
+      clearTimeout(timeLeft);
+    }
+
+  });
 
   function handleAnswer(isCorrect) {
     setTimeRemaining(10);
